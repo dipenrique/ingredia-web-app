@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4001';
+const API_BASE = process.env.API_URL ?? 'http://localhost:4001';
 const INTERNAL_SECRET = process.env.API_INTERNAL_SECRET ?? '';
 
 export async function GET(

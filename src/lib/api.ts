@@ -17,7 +17,7 @@ import type {
   SearchResponse,
 } from '@/types/index.js';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4001';
+const API_BASE = process.env.API_URL ?? 'http://localhost:4001';
 
 // Only available server-side (no NEXT_PUBLIC_ prefix).
 const INTERNAL_SECRET = process.env.API_INTERNAL_SECRET ?? '';
