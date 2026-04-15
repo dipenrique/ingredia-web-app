@@ -5,8 +5,8 @@
 [build.environment]
   NODE_VERSION = "22"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+#[[plugins]]
+#  package = "@netlify/plugin-nextjs"
 
 # ---------------------------------------------------------------------------
 # Edge cache headers for statically generated / ISR pages.
