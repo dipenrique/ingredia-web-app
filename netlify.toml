@@ -1,0 +1,45 @@
+[build]
+  command   = "npm run build"
+  publish   = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# ---------------------------------------------------------------------------
+# Edge cache headers for statically generated / ISR pages.
+# Netlify's CDN respects Cache-Control from the app, but these rules add a
+# safety net for routes that forget to set them.
+# ---------------------------------------------------------------------------
+
+[[headers]]
+  for = "/categories/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, s-maxage=7200, stale-while-revalidate=300"
+
+[[headers]]
+  for = "/products/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, s-maxage=14400, stale-while-revalidate=600"
+
+[[headers]]
+  for = "/ingredients/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, s-maxage=7200, stale-while-revalidate=300"
+
+# Static assets — long cache, fingerprinted by Next.js build hash.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ---------------------------------------------------------------------------
+# Redirect www → apex (adjust to your actual domain).
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from   = "https://www.pure-ingredia.com/*"
+  to     = "https://pure-ingredia.com/:splat"
+  status = 301
+  force  = true
