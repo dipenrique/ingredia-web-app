@@ -33,11 +33,12 @@ const SORT_LABELS: Record<string, string> = {
   price_asc:      'Price: Low to High',
   price_desc:     'Price: High to Low',
   discount_desc:  'Biggest Discount',
+  reviews_desc:   'Most Reviews',
 };
 
 export default async function CategoryPage({ params, searchParams }: Props) {
   const { slug } = await params;
-  const { sort = 'rating_desc' } = await searchParams;
+  const { sort = 'reviews_desc' } = await searchParams;
 
   let data;
   try {

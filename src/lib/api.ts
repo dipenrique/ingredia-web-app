@@ -67,7 +67,7 @@ export interface ProductListParams {
   category?: string;
   brand?: string;
   inStock?: boolean;
-  sort?: 'price_asc' | 'price_desc' | 'rating_desc' | 'discount_desc' | 'newest';
+  sort?: 'price_asc' | 'price_desc' | 'rating_desc' | 'discount_desc' | 'newest' | 'reviews_desc';
 }
 
 export function getProducts(params: ProductListParams = {}) {

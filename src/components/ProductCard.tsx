@@ -82,16 +82,18 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
 
         {/* Price row */}
-        <div className="flex items-baseline gap-1.5 mt-auto pt-1">
-          <span className="text-sm font-bold text-stone-900">
-            ₹{product.price.toLocaleString()}
-          </span>
-          {product.mrp && product.mrp > product.price && (
-            <span className="text-xs text-stone-400 line-through">
-              ₹{product.mrp.toLocaleString()}
+        {product.price != null && (
+          <div className="flex items-baseline gap-1.5 mt-auto pt-1">
+            <span className="text-sm font-bold text-stone-900">
+              ₹{product.price.toLocaleString()}
             </span>
-          )}
-        </div>
+            {product.mrp && product.mrp > product.price && (
+              <span className="text-xs text-stone-400 line-through">
+                ₹{product.mrp.toLocaleString()}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </a>
   );
