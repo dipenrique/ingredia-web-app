@@ -265,13 +265,21 @@ export function InfiniteSearchResults({
                   </a>
                 ))}
               </div>
-              <div className="mt-8 flex items-center justify-center min-h-[48px]">
+              <div className="mt-8 flex items-center justify-center">
                 {ingredientNamesLoading && <LoadingSpinner />}
+                {!ingredientNamesLoading && ingredientNamesHasMore && (
+                  <button
+                    onClick={loadMoreIngredientNames}
+                    className="px-5 py-2 rounded-full border border-stone-300 bg-white text-sm font-medium
+                               text-stone-700 hover:border-brand-400 hover:text-brand-700 hover:bg-brand-50 transition-colors"
+                  >
+                    Load more
+                  </button>
+                )}
                 {!ingredientNamesLoading && !ingredientNamesHasMore && ingredientNames.length > 0 && (
                   <p className="text-stone-400 text-sm">All {ingredientNames.length} ingredients loaded</p>
                 )}
               </div>
-              <Sentinel onVisible={loadMoreIngredientNames} />
             </>
           )}
         </section>
