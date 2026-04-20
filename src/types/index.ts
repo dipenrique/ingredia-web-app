@@ -61,9 +61,21 @@ export interface SearchResponse {
     total: number;
     page: number;
     pageSize: number;
+    hasMore: boolean;
   };
   ingredients: {
     /** Products whose ingredient_list_names matched the query. */
     items: (ProductSummary & { ingredient_list_names?: string[] })[];
+    total: number;
+    page: number;
+    pageSize: number;
+    hasMore: boolean;
+  };
+  ingredientNames: {
+    items: Ingredient[];
+    total: number;
+    page: number;
+    pageSize: number;
+    hasMore: boolean;
   };
 }

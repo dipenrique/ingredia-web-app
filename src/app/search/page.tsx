@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { search } from '@/lib/api';
-import { ProductCard } from '@/components/ProductCard';
+import { InfiniteSearchResults } from '@/components/InfiniteSearchResults';
+import { SearchInput } from '@/components/SearchInput';
 
 export const metadata: Metadata = {
   title: 'Search Products & Ingredients',
@@ -27,7 +28,7 @@ export default async function SearchPage({ searchParams }: Props) {
     try {
       results = await search({
         q: query,
-        type: activeType as 'products' | 'ingredients' | 'all',
+        type: activeType as 'products' | 'ingredients' | 'ingredient_names' | 'all',
         page,
         pageSize: 12,
       });
@@ -37,9 +38,10 @@ export default async function SearchPage({ searchParams }: Props) {
   }
 
   const TYPE_TABS = [
-    { key: 'all',         label: 'All' },
-    { key: 'products',    label: 'Products' },
-    { key: 'ingredients', label: 'By Ingredient' },
+    { key: 'all',              label: 'All' },
+    { key: 'products',         label: 'Products' },
+    { key: 'ingredients',      label: 'By Ingredient' },
+    { key: 'ingredient_names', label: 'Ingredient Names' },
   ];
 
   return (
@@ -49,16 +51,7 @@ export default async function SearchPage({ searchParams }: Props) {
       {/* Search form */}
       <form action="/search" method="GET" className="mb-6">
         <div className="flex gap-2">
-          <input
-            name="q"
-            type="search"
-            defaultValue={query}
-            placeholder="Search products, brands or ingredients…"
-            required
-            minLength={2}
-            autoFocus
-            className="search-input flex-1"
-          />
+          <SearchInput defaultValue={query} activeType={activeType} />
           <input type="hidden" name="type" value={activeType} />
           <button type="submit" className="btn-primary shrink-0">
             Search
@@ -92,49 +85,24 @@ export default async function SearchPage({ searchParams }: Props) {
 
       {/* Results */}
       {results && (
-        <div className="space-y-10">
+        <div className="space-y-6">
           <p className="text-stone-500 text-sm">
             Results for <span className="font-semibold text-stone-800">&ldquo;{results.query}&rdquo;</span>
           </p>
-
-          {/* Product results */}
-          {(activeType === 'all' || activeType === 'products') && (
-            <section>
-              <h2 className="text-lg font-bold text-stone-900 mb-4">
-                Products
-                <span className="ml-2 text-sm font-normal text-stone-400">
-                  ({results.products.total.toLocaleString()})
-                </span>
-              </h2>
-              {results.products.items.length === 0 ? (
-                <p className="text-stone-400 text-sm">No products found.</p>
-              ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {results.products.items.map(p => (
-                    <ProductCard key={p.id} product={p} />
-                  ))}
-                </div>
-              )}
-            </section>
-          )}
-
-          {/* Ingredient results */}
-          {(activeType === 'all' || activeType === 'ingredients') && (
-            <section>
-              <h2 className="text-lg font-bold text-stone-900 mb-4">
-                Products containing this ingredient
-              </h2>
-              {results.ingredients.items.length === 0 ? (
-                <p className="text-stone-400 text-sm">No products found with that ingredient.</p>
-              ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {results.ingredients.items.map(p => (
-                    <ProductCard key={p.id} product={p} />
-                  ))}
-                </div>
-              )}
-            </section>
-          )}
+          <InfiniteSearchResults
+            query={results.query}
+            activeType={activeType}
+            initialProducts={results.products.items}
+            productsTotal={results.products.total}
+            initialProductsHasMore={results.products.hasMore}
+            initialIngredients={results.ingredients.items}
+            ingredientsTotal={results.ingredients.total}
+            initialIngredientsHasMore={results.ingredients.hasMore}
+            initialIngredientNames={results.ingredientNames.items}
+            ingredientNamesTotal={results.ingredientNames.total}
+            initialIngredientNamesHasMore={results.ingredientNames.hasMore}
+            pageSize={12}
+          />
         </div>
       )}
 

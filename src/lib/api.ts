@@ -109,7 +109,7 @@ export function getCategoryProducts(categoryId: string, params: CategoryProducts
 
 export interface SearchParams {
   q: string;
-  type?: 'products' | 'ingredients' | 'all';
+  type?: 'products' | 'ingredients' | 'ingredient_names' | 'all';
   page?: number;
   pageSize?: number;
   category?: string;
